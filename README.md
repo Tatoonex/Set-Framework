@@ -2,6 +2,25 @@
 
 Mini framework de pruebas automatizadas de **UI** ([saucedemo.com](https://www.saucedemo.com)) y **API** ([Restful Booker](https://restful-booker.herokuapp.com)) con Playwright.
 
+Priorice:
+
+1. Análisis 
+2. Generacion de set de pruebas
+3. Generacion de casos de pruebas
+4. Estructuracion
+5. Resultado final
+
+paso a paso: 
+
+1. Yo empece haciendo una validacion de la plataforma y del end-point que se me fueron entregados
+2. Con la validacion realizada, comence a realizar los casos de prueba que podía realizar en la pagina y en el API
+3. Una vez los organicé en el Excel, empecé a armar la automatización...
+4. Cree una carpeta y le instale el playwrigt.
+5. En el playwright, que se instala por defecto viene la estructura POM.
+6. Utilice esa misma estructura para comenzar a organizar las automatizaciones
+7. Indague y reutilice código de anteriores proyectos para realizar la automtatizacion
+8. Una vez finalizada deje el reporte normal de playwright para el informe de las pruebas.
+
 ## Estructura
 
 ```
@@ -66,9 +85,3 @@ Las URLs y credenciales se pueden cambiar con variables de entorno sin tocar el 
 | `URL_API` | `https://restful-booker.herokuapp.com` |
 | `CONTRASENA_SAUCEDEMO` | `secret_sauce` |
 | `USUARIO_API` / `CONTRASENA_API` | `admin` / `password123` |
-
-En GitHub Actions se configuran como *Secrets* del repositorio.
-
-## Integración continua
-
-El workflow `.github/workflows/playwright.yml` corre todas las pruebas en cada push o PR a `main`. Desde la pestaña **Actions → Pruebas de Playwright → Run workflow** se puede ejecutar a mano eligiendo `smoke`, `regresion` o `api`.

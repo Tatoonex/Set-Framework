@@ -1,0 +1,48 @@
+name: Pruebas de Playwright
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  # Ejecución manual desde la pestaña Actions eligiendo el grupo de pruebas
+  workflow_dispatch:
+    inputs:
+      grupo:
+        description: 'Grupo de pruebas a ejecutar'
+        required: true
+        default: 'todas'
+        type: choice
+        options:
+          - todas
+          - smoke
+          - regresion
+          - api
+jobs:
+  prueba:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Instalar dependencias
+      run: npm ci
+    - name: Instalar navegadores de Playwright
+      run: npx playwright install --with-deps
+    - name: Ejecutar pruebas de Playwright
+      env:
+        GRUPO: ${{ inputs.grupo || 'todas' }}
+      run: |
+        case "$GRUPO" in
+          smoke)     npm run test:smoke ;;
+          regresion) npm run test:regresion ;;
+          api)       npm run test:api ;;
+          *)         npm test ;;
+        esac
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
